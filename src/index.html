@@ -26,8 +26,8 @@
             <thead>
               <tr>
                 <th scope="col">#</th>
-                <th scope="col">Name</th>
-                <th scope="col">Votes</th>
+                <th scope="col">Funds</th>
+                <th scope="col">Tickets</th>
               </tr>
             </thead>
             <tbody id="candidatesResults">
@@ -36,7 +36,7 @@
           <hr/>
           <form>
             <div class="form-group">
-              <label for="candidatesSelect">Select Target</label>
+              <label for="candidatesSelect">Select Fund</label>
               <select class="form-control" id="candidatesSelect">
               </select>
             </div>
@@ -44,9 +44,9 @@
             <button type="submit" id="unvoteBtn" class="btn btn-reverse" onclick="App.castUnvote(); return false;">Unvote</button>
             <hr />
           </form>
-          <label id="maxVoteLimit" class="text-center">Max Votes: 3</label>
-          <button type="button" id="addMaxVoteBtn" class="btn btn-primary" onclick="App.addMaxVotes(); return false;">buyVotes + 3</button>
-          <button type="button" id="sellVoteBtn" class="btn btn-primary" onclick="App.sellVotes(); return false;">sellVotes - 1</button>
+          <label id="maxVoteLimit" class="text-center">Ticket Number: 3</label>
+          <button type="button" id="addMaxVoteBtn" class="btn btn-primary" onclick="App.addMaxVotes(); return false;">Ticket + 3</button>
+          <button type="button" id="sellVoteBtn" class="btn btn-primary" onclick="App.sellVotes(); return false;">Ticket - 1</button>
           <hr />
           <p id="accountAddress" class="text-center"></p>
           <p id="balance" class="text-center"></p>
