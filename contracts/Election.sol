@@ -79,8 +79,15 @@ contract Election {
     }
 
     function addMaxVotes (uint votes) public {
-        require(!(votes<0 && voters[msg.sender].maxVote + votes < 0));
+        // require(!(votes<0 && voters[msg.sender].maxVote + votes < 0));
         voters[msg.sender].maxVote += votes;
+
+        emit voteLimitEvent(votes);
+    }
+
+    function sellVotes (uint votes) public {
+        require(voters[msg.sender].maxVote - voters[msg.sender].voteCount>=votes);
+        voters[msg.sender].maxVote -= votes;
 
         emit voteLimitEvent(votes);
     }

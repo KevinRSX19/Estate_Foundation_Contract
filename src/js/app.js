@@ -134,6 +134,19 @@ App = {
     });
   },
 
+  sellVotes: function () {
+    App.contracts.Election.deployed().then(function (instance) {
+      return instance.sellVotes(1, { from: App.account });
+    }).then(function (result) {
+      // Wait for votes to update
+      $("#content").hide();
+      $("#loader").show();
+      // App.render();
+    }).catch(function (err) {
+      console.error(err);
+    });
+  },
+
   listenForEvents: function(){
     App.contracts.Election.deployed().then(function(instance){
       instance.votedEvent({}, {

@@ -17,12 +17,12 @@ contract("Election", function (accounts) {
             return electionInstance.candidates(1);
         }).then(function (candidate) {
             assert.equal(candidate[0], 1, "contains the correct id");
-            assert.equal(candidate[1], "Candidate 1", "contains the correct name");
+            assert.equal(candidate[1], "10 Apartments 6%", "contains the correct name");
             assert.equal(candidate[2], 0, "contains the correct votes count");
             return electionInstance.candidates(2);
         }).then(function (candidate) {
             assert.equal(candidate[0], 2, "contains the correct id");
-            assert.equal(candidate[1], "Candidate 2", "contains the correct name");
+            assert.equal(candidate[1], "5 Houses 8%", "contains the correct name");
             assert.equal(candidate[2], 0, "contains the correct votes count");
         });
     });
@@ -87,13 +87,35 @@ contract("Election", function (accounts) {
             electionInstance.vote(candidateId, { from: accounts[0] });
             return electionInstance.voters(accounts[0]);
         }).then(function (voter) {
-            assert.equal(voter[1], 6, "the voter 1 has 3 more votes");
+            assert.equal(voter[1], 6, "the voter 1 has 6 votes total");
             return electionInstance.candidates(candidateId);
         }).then(function (candidate2) {
             var voteCount = candidate2[2];
             assert.equal(voteCount, 4, "candidate 2 did receive 1 vote");
         });
-    });    
+    });
+
+    it("allows user to sell votes", function() {
+        return Election.deployed().then(function (instance) {
+            electionInstance = instance;
+            electionInstance.sellVotes(2, { from: accounts[0] });
+            return electionInstance.voters(accounts[0]);
+        }).then(function (voter) {
+            assert.equal(voter[1], 4, "the voter 1 has sold 2 votes");
+        });
+    });
+
+    it("throws an error for sell more spare votes than you have", function() {
+        return Election.deployed().then(function (instance) {
+            electionInstance = instance;
+            return electionInstance.sellVotes(2, { from: accounts[0] });
+        }).then(assert.fail).catch(function (error) {
+            assert(error.message.indexOf('revert') >= 0, "error message must contain revert");
+            return electionInstance.voters(accounts[0]);
+        }).then(function (voter) {
+            assert.equal(voter[1], 4, "the voter 1 has not sold any votes");
+        });
+    });
 
     // it("allows a voter to cast a vote", function () {
     //     return Election.deployed().then(function (instance) {
